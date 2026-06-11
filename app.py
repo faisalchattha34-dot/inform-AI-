@@ -9,6 +9,7 @@ from datetime import datetime
 from openpyxl import load_workbook
 from io import BytesIO
 import smtplib
+import requests
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
