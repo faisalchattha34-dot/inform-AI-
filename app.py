@@ -42,9 +42,8 @@ meta = load_meta()
 # Helper Functions
 # ----------------------------
 def send_email(receiver_email, form_link):
-    sender_email = "your_email@example.com"
-    sender_pass = "your_email_password"
-    
+    sender_email = "493ayeshanasir@gmail.com"
+    sender_pass = "abcdefghijklmnop"
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = receiver_email
