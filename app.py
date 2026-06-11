@@ -4,7 +4,7 @@ import os
 import json
 import uuid
 from database import *
- init_db()
+init_db()
 from datetime import datetime
 from openpyxl import load_workbook
 from io import BytesIO
