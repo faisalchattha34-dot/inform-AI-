@@ -43,7 +43,7 @@ meta = load_meta()
 # ----------------------------
 def send_email(receiver_email, form_link):
     sender_email = "493ayeshanasir@gmail.com"
-    sender_pass = "abcdefghijklmnop"
+    sender_pass = "App Password generated from 493ayeshanasir@gmail.com"
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = receiver_email
