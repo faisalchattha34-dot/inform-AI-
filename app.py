@@ -120,9 +120,9 @@ if meta.get("forms"):
 # ----------------------------
 # 3️⃣ Fill Form
 # ----------------------------
-query_params = st.experimental_get_query_params()
+query_params = st.query_params
 if "form_id" in query_params:
-    fid = query_params["form_id"][0]
+    fid = query_params["form_id"]
     form = meta["forms"].get(fid)
     if form:
         st.subheader(f"📝 {form['form_name']}")
@@ -141,8 +141,7 @@ if "form_id" in query_params:
             with open(f"responses/{response_id}.json", "w") as f:
                 json.dump(response_data, f, indent=4)
             st.success("Response submitted successfully!")
-            st.experimental_rerun()
-
+            st.rerun()
 # ----------------------------
 # 4️⃣ Responses Dashboard
 # ----------------------------
