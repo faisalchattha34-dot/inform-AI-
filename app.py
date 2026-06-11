@@ -101,21 +101,42 @@ if st.sidebar.button("Create Form") and form_name and uploaded_file:
 # ----------------------------
 # 2️⃣ Share Form (Email)
 # ----------------------------
-st.sidebar.subheader("📧 Share Form via Email")
-if meta.get("forms"):
-    selected_form = st.sidebar.selectbox(
-        "Select Form to Share", 
-        [(f["form_name"], fid) for fid, f in meta["forms"].items()]
-    )
-    if selected_form:
-        form_label, form_id = selected_form
-        emails_text = st.sidebar.text_area("Enter emails (comma separated)")
-        if st.sidebar.button("Send Form"):
-            emails = [e.strip() for e in emails_text.split(",") if e.strip()]
-            link = f"http://localhost:8501/?form_id={form_id}"  # Update for deployed URL
-            for email in emails:
-                send_email(email, link)
-            st.sidebar.success(f"Form sent to {len(emails)} emails.")
+def send_email(receiver_email, form_link):
+
+    RESEND_API_KEY = st.secrets["RESEND_API_KEY"]
+
+    headers = {
+        "Authorization": f"Bearer {RESEND_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "from": "onboarding@resend.dev",
+        "to": [receiver_email],
+        "subject": "Please Fill The Form",
+        "html": f"""
+        <h3>Form Request</h3>
+        <p>Please fill the form below:</p>
+        <a href="{form_link}">{form_link}</a>
+        """
+    }
+
+    try:
+        response = requests.post(
+            "https://api.resend.com/emails",
+            json=payload,
+            headers=headers
+        )
+
+        if response.status_code in [200, 201]:
+            return True
+        else:
+            st.error(response.text)
+            return False
+
+    except Exception as e:
+        st.error(f"Email Error: {e}")
+        return False
 
 # ----------------------------
 # 3️⃣ Fill Form
