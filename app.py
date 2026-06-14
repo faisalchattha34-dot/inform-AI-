@@ -291,10 +291,18 @@ if forms:
 
     for form in forms:
 
-        st.write("###", form["form_name"])
+    st.subheader(form["form_name"])
 
-        st.code(form["id"])
+    if st.button(
+        f"Generate Link",
+        key=f"link_{form['id']}"
+    ):
 
-else:
+        form_link = (
+           f"https://inform-ai.streamlit.app/?form_id={form['id']}"
 
-    st.warning("No forms created yet.")
+        )
+
+        st.success("Form Link Generated")
+
+        st.code(form_link)
