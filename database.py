@@ -3,7 +3,7 @@
 import sqlite3
 from datetime import datetime
 
-DB_NAME = "data/app.db"
+DB_NAME = ".data/app.db"
 
 
 def get_connection():
