@@ -358,18 +358,20 @@ if forms:
 
     for form in forms:
 
-        st.subheader(form["form_name"])
+      st.subheader(form["form_name"])
 
-        if st.button(
-            "Generate Link",
-            key=f"link_{form['id']}"
-        ):
+       if st.button(
+          "Generate Link",
+          key=f"link_{form['id']}"
+):
 
-            form_link = f"?form_id={form['id']}"
+    form_link = (
+        f"https://vpkcfnrxjomifme69u2qzo.streamlit.app/?form_id={form['id']}"
+    )
 
-            st.success("Form Link Generated")
+    st.success("Form Link Generated")
 
-            st.code(form_link)
+    st.code(form_link)
 
 else:
 
