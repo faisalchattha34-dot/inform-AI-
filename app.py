@@ -278,42 +278,7 @@ if uploaded_file:
         st.success(
             f"Form Created Successfully: {form_id}"
         )
-    columns_data = []
-
-    for col in df.columns:
-
-        values = (
-            df[col]
-            .dropna()
-            .astype(str)
-            .unique()
-            .tolist()
-        )
-
-        columns_data.append(
-            {
-                "name": col,
-                "values": values[:20]
-            }
-        )
-
-    if st.button("Save Form"):
-
-        form_id = str(uuid.uuid4())
-
-        save_form(
-            form_id=form_id,
-            user_id=user["id"],
-            form_name=form_name,
-            columns_json=json.dumps(
-                columns_data
-            )
-        )
-
-        st.success(
-            f"Form Created Successfully: {form_id}"
-        )
-
+    
 # =====================================================
 # MY FORMS
 # =====================================================
