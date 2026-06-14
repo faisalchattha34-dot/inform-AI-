@@ -358,21 +358,25 @@ if forms:
 
     for form in forms:
 
-      st.subheader(form["form_name"])
+        st.subheader(form["form_name"])
 
-       if st.button(
-          "Generate Link",
-          key=f"link_{form['id']}"
-):
+        st.write(f"Form ID: {form['id']}")
 
-    form_link = (
-        f"https://vpkcfnrxjomifme69u2qzo.streamlit.app/?form_id={form['id']}"
-    )
+        if st.button(
+            "Generate Link",
+            key=f"link_{form['id']}"
+        ):
 
-    st.success("Form Link Generated")
+            form_link = (
+                f"https://vpkcfnrxjomifme69u2qzo.streamlit.app/?form_id={form['id']}"
+            )
 
-    st.code(form_link)
+            st.success("Form Link Generated")
+
+            st.code(form_link)
 
 else:
 
-    st.warning("No forms created yet.")
+    st.warning(
+        "No forms created yet."
+    )
