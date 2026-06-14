@@ -224,3 +224,18 @@ def delete_response(response_id):
 
     conn.commit()
     conn.close()
+def get_all_forms():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT * FROM forms
+    ORDER BY created_at DESC
+    """)
+
+    forms = cur.fetchall()
+
+    conn.close()
+
+    return forms
