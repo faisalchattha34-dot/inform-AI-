@@ -17,6 +17,70 @@ st.set_page_config(
 )
 
 init_db()
+# ==========================================
+# PUBLIC FORM PAGE
+# ==========================================
+
+query_params = st.query_params
+
+if "form_id" in query_params:
+
+    form_id = query_params["form_id"]
+
+    form = get_form(form_id)
+
+    if form:
+
+        st.title(form["form_name"])
+
+        fields = json.loads(
+            form["columns_json"]
+        )
+
+        response_data = {}
+
+        for field in fields:
+
+            field_name = field["name"]
+
+            values = field.get(
+                "values",
+                []
+            )
+
+            if len(values) > 1:
+
+                response_data[field_name] = st.selectbox(
+                    field_name,
+                    values,
+                    key=field_name
+                )
+
+            else:
+
+                response_data[field_name] = st.text_input(
+                    field_name,
+                    key=field_name
+                )
+
+        if st.button("Submit Form"):
+
+            save_response(
+                str(uuid.uuid4()),
+                form_id,
+                json.dumps(response_data)
+            )
+
+            st.success(
+                "Form Submitted Successfully"
+            )
+
+        st.stop()
+
+    else:
+
+        st.error("Form Not Found")
+        st.stop()
 
 # -------------------------
 # SESSION STATE
@@ -302,7 +366,7 @@ if forms:
         ):
 
             form_link = (
-                f"?form_id={form['id']}"
+                f"https://excelforms.streamlit.app/?form_id={form['id']}"
             )
 
             st.success("Form Link Generated")
