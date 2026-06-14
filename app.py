@@ -291,6 +291,8 @@ if forms:
 
     for form in forms:
 
+    for form in forms:
+
     st.subheader(form["form_name"])
 
     if st.button(
@@ -299,8 +301,7 @@ if forms:
     ):
 
         form_link = (
-           f"https://inform-ai.streamlit.app/?form_id={form['id']}"
-
+            f"?form_id={form['id']}"
         )
 
         st.success("Form Link Generated")
