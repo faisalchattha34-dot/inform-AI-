@@ -237,5 +237,22 @@ def get_all_forms():
     forms = cur.fetchall()
 
     conn.close()
+def update_form_columns(
+        form_id,
+        columns_json):
 
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+    UPDATE forms
+    SET columns_json=?
+    WHERE id=?
+    """, (
+        columns_json,
+        form_id
+    ))
+
+    conn.commit()
+    conn.close()
     return forms
