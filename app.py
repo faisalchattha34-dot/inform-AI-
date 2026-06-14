@@ -179,44 +179,18 @@ if uploaded_file:
         f"Header Row Found: {header_row}"
     )
 
-st.subheader("Column Editor")
+    st.subheader(
+        "Detected Columns"
+    )
 
-edited_columns = []
-
-for col in df.columns:
-
-    c1, c2, c3 = st.columns([3, 3, 1])
-
-    with c1:
-        st.text_input(
-            "Original",
-            value=col,
-            disabled=True,
-            key=f"orig_{col}"
-        )
-
-    with c2:
-        new_name = st.text_input(
-            "Rename",
-            value=col,
-            key=f"rename_{col}"
-        )
-
-    with c3:
-        include = st.checkbox(
-            "Keep",
-            value=True,
-            key=f"keep_{col}"
-        )
-
-    if include:
-
-        edited_columns.append(
+    st.dataframe(
+        pd.DataFrame(
             {
-                "original": col,
-                "name": new_name
+                "Columns": df.columns
             }
         )
+    )
+
     # ==========================
     # Dropdown Detection
     # ==========================
@@ -362,4 +336,4 @@ else:
 
     st.warning(
         "No forms created yet."
-    )
+    ) 
