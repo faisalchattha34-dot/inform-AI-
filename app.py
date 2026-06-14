@@ -5,6 +5,7 @@ import uuid
 
 from database import *
 from email_service import *
+from openpyxl import load_workbook
 
 # -------------------------
 # PAGE CONFIG
