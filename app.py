@@ -62,20 +62,35 @@ if "form_id" in query_params:
                     field_name,
                     key=field_name
                 )
+st.subheader("Preview Before Submit")
 
-        if st.button("Submit Form"):
+if st.button("Preview Data"):
 
-            save_response(
-                str(uuid.uuid4()),
-                form_id,
-                json.dumps(response_data)
+    st.session_state.preview_data = response_data
+
+if "preview_data" in st.session_state:
+
+    st.write("Please verify your data:")
+
+    st.json(
+        st.session_state.preview_data
+    )
+
+    if st.button("Confirm & Submit"):
+
+        save_response(
+            str(uuid.uuid4()),
+            form_id,
+            json.dumps(
+                st.session_state.preview_data
             )
+        )
 
-            st.success(
-                "Form Submitted Successfully"
-            )
+        st.success(
+            "Form Submitted Successfully"
+        )
 
-        st.stop()
+        del st.session_state.preview_data
 
     else:
 
