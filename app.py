@@ -46,9 +46,9 @@ if not st.session_state.logged_in:
 
 user = st.session_state.user
 
-st.sidebar.success(
+ st.sidebar.success(
     f"Welcome {user['username']}"
-)
+ )
 
 if st.sidebar.button("Logout"):
 
