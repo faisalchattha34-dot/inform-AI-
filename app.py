@@ -40,6 +40,85 @@ st.caption("Excel → Dynamic Form → Email → Responses")
 # -------------------------
 
 if not st.session_state.logged_in:
+    # ==========================
+# DASHBOARD
+# ==========================
+
+user = st.session_state.user
+
+st.sidebar.success(
+    f"Welcome {user['username']}"
+)
+
+if st.sidebar.button("Logout"):
+
+    st.session_state.logged_in = False
+    st.session_state.user = None
+
+    st.rerun()
+
+st.header("Dashboard")
+
+st.write("Create forms from Excel files")
+
+form_name = st.text_input(
+    "Form Name"
+)
+
+uploaded_file = st.file_uploader(
+    "Upload Excel File",
+    type=["xlsx"]
+)
+
+if uploaded_file:
+
+    df = pd.read_excel(uploaded_file)
+
+    st.success("Excel Loaded Successfully")
+
+    st.subheader("Detected Columns")
+
+    st.dataframe(
+        pd.DataFrame({
+            "Columns": df.columns
+        })
+    )
+
+    columns_data = []
+
+    for col in df.columns:
+
+        values = (
+            df[col]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+
+        values = [
+            str(v)
+            for v in values
+        ]
+
+        columns_data.append({
+            "name": col,
+            "values": values[:20]
+        })
+
+    if st.button("Save Form"):
+
+        form_id = str(uuid.uuid4())
+
+        save_form(
+            form_id=form_id,
+            user_id=user["id"],
+            form_name=form_name,
+            columns_json=json.dumps(columns_data)
+        )
+
+        st.success(
+            f"Form Created Successfully: {form_id}"
+        )
 
     tab1, tab2 = st.tabs(
         [
