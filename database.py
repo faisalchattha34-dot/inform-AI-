@@ -55,10 +55,22 @@ def init_db():
 # ==========================
 # USER FUNCTIONS
 # ==========================
-
 def create_user(username, email, password):
+
     conn = get_connection()
     cur = conn.cursor()
+
+    # Check if email already exists
+    cur.execute(
+        "SELECT * FROM users WHERE email=?",
+        (email,)
+    )
+
+    existing_user = cur.fetchone()
+
+    if existing_user:
+        conn.close()
+        return False
 
     cur.execute("""
     INSERT INTO users
@@ -74,6 +86,7 @@ def create_user(username, email, password):
     conn.commit()
     conn.close()
 
+    return True
 
 def login_user(email, password):
     conn = get_connection()
