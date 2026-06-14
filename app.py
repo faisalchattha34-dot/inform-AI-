@@ -285,20 +285,16 @@ if uploaded_file:
 
 st.subheader("My Forms")
 
-forms = get_user_forms(
-    user["id"]
-)
+forms = get_user_forms(user["id"])
 
 if forms:
 
     for form in forms:
 
-        st.info(
-            f"{form['form_name']} | ID: {form['id']}"
-        )
+        st.write("###", form["form_name"])
+
+        st.code(form["id"])
 
 else:
 
-    st.warning(
-        "No forms created yet."
-    ) 
+    st.warning("No forms created yet.")
