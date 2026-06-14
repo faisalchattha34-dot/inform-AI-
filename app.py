@@ -367,6 +367,7 @@ if forms:
 
             form_link = (
                 form_link = f"?form_id={form['id']}"
+                st.code(form_link)
             )
 
             st.success("Form Link Generated")
