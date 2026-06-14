@@ -365,10 +365,7 @@ if forms:
             key=f"link_{form['id']}"
         ):
 
-            form_link = (
-                form_link = f"?form_id={form['id']}"
-                st.code(form_link)
-            )
+            form_link = f"?form_id={form['id']}"
 
             st.success("Form Link Generated")
 
@@ -376,8 +373,4 @@ if forms:
 
 else:
 
-    st.warning(
-        "No forms created yet."
-    )
-
-   
+    st.warning("No forms created yet.")
