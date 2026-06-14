@@ -366,7 +366,7 @@ if forms:
         ):
 
             form_link = (
-                f"https://excelforms.streamlit.app/?form_id={form['id']}"
+                form_link = f"?form_id={form['id']}"
             )
 
             st.success("Form Link Generated")
