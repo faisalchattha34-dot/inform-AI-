@@ -1,6 +1,7 @@
+
 streamlit
 pandas
 openpyxl
 xlsxwriter
-requests
-email-validator
+numpy
+bcrypt
