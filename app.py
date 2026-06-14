@@ -139,10 +139,43 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file:
 
-    df = pd.read_excel(uploaded_file)
+    wb = load_workbook(uploaded_file)
+
+    ws = wb.active
+
+    # Header detection from first 5 rows
+    header_row = None
+
+    for row_num in range(1, 6):
+
+        values = [
+            cell.value
+            for cell in ws[row_num]
+            if cell.value is not None
+        ]
+
+        if len(values) >= 2:
+
+            header_row = row_num
+            break
+
+    if header_row is None:
+        header_row = 1
+
+    # Reload file pointer
+    uploaded_file.seek(0)
+
+    df = pd.read_excel(
+        uploaded_file,
+        header=header_row - 1
+    )
 
     st.success(
         "Excel Loaded Successfully"
+    )
+
+    st.write(
+        f"Header Row Found: {header_row}"
     )
 
     st.subheader(
@@ -157,6 +190,93 @@ if uploaded_file:
         )
     )
 
+    # ==========================
+    # Dropdown Detection
+    # ==========================
+
+    dropdown_columns = {}
+
+    try:
+
+        for dv in ws.data_validations.dataValidation:
+
+            if dv.type == "list":
+
+                options = dv.formula1
+
+                for cell_range in dv.cells.ranges:
+
+                    col_num = cell_range.min_col
+
+                    col_name = ws.cell(
+                        header_row,
+                        col_num
+                    ).value
+
+                    dropdown_columns[
+                        str(col_name)
+                    ] = options
+
+    except:
+        pass
+
+    st.subheader(
+        "Detected Dropdowns"
+    )
+
+    if dropdown_columns:
+
+        for col, values in dropdown_columns.items():
+
+            st.write(
+                f"{col} → {values}"
+            )
+
+    else:
+
+        st.info(
+            "No dropdown lists found."
+        )
+
+    # ==========================
+    # Save Form Data
+    # ==========================
+
+    columns_data = []
+
+    for col in df.columns:
+
+        values = (
+            df[col]
+            .dropna()
+            .astype(str)
+            .unique()
+            .tolist()
+        )
+
+        columns_data.append(
+            {
+                "name": col,
+                "values": values[:20]
+            }
+        )
+
+    if st.button("Save Form"):
+
+        form_id = str(uuid.uuid4())
+
+        save_form(
+            form_id=form_id,
+            user_id=user["id"],
+            form_name=form_name,
+            columns_json=json.dumps(
+                columns_data
+            )
+        )
+
+        st.success(
+            f"Form Created Successfully: {form_id}"
+        )
     columns_data = []
 
     for col in df.columns:
